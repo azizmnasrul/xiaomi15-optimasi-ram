@@ -42,6 +42,7 @@ $Restrict = @(
     # Video
     'com.google.android.youtube',       # YouTube
     'com.google.android.apps.youtube.creator', # YouTube Studio
+    'com.lemon.lvoverseas',             # CapCut
     # Lainnya
     'com.telkomsel.telkomselcm',        # MyTelkomsel
     'com.casio.wac_app'                 # Casio Watches (jam bisa terputus!)
@@ -55,7 +56,11 @@ $RestrictSystem = @(
 # Aplikasi sistem yang di-"uninstall" untuk user 0 (file asli tetap di sistem)
 $UninstallUser0 = @(
     'com.miui.msa.global',              # MSA - layanan iklan HyperOS
-    'com.xiaomi.mipicks'                # GetApps
+    'com.xiaomi.mipicks',               # GetApps
+    'com.facebook.services',            # Layanan Facebook bawaan pabrik
+    'com.facebook.appmanager',          # Facebook App Manager (bawaan pabrik)
+    'com.facebook.system',              # Facebook App Installer (bawaan pabrik)
+    'com.google.android.projection.gearhead' # Android Auto (hapus baris ini jika memakai Android Auto)
 )
 
 # Kode appop Autostart milik MIUI/HyperOS
@@ -168,7 +173,7 @@ foreach ($p in $RestrictSystem) {
 
 # ===================== 4. UNINSTALL USER 0 =====================
 
-Write-Host "`n== 4. Uninstall untuk user 0 (MSA, GetApps) ==" -ForegroundColor Cyan
+Write-Host "`n== 4. Uninstall untuk user 0 (MSA, GetApps, layanan Facebook, Android Auto) ==" -ForegroundColor Cyan
 foreach ($p in $UninstallUser0) {
     if (-not (Is-Installed $p)) { Write-Host " $p sudah tidak terpasang untuk user (OK)"; continue }
     Write-Host " $p -> $(Sh "pm uninstall -k --user 0 $p")"

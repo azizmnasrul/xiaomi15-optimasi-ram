@@ -48,9 +48,9 @@ Skrip melakukan:
 | Langkah | Aplikasi | Tindakan |
 |---|---|---|
 | 1. Jaga tetap hidup | WhatsApp | Dikecualikan dari Doze, boleh jalan di latar belakang, Autostart ON |
-| 2. Batasi latar belakang | Facebook, FB Lite, Instagram, Threads, Edits, Meta View, Shopee, Tokopedia, Lazada, Blibli, YouTube, YouTube Studio, MyTelkomsel, Casio Watches | Larang jalan di latar belakang, bucket *Restricted*, Autostart OFF, keluarkan dari Doze whitelist, force-stop |
+| 2. Batasi latar belakang | Facebook, FB Lite, Instagram, Threads, Edits, Meta View, Shopee, Tokopedia, Lazada, Blibli, YouTube, YouTube Studio, CapCut, MyTelkomsel, Casio Watches | Larang jalan di latar belakang, bucket *Restricted*, Autostart OFF, keluarkan dari Doze whitelist, force-stop |
 | 3. Batasi app sistem | Discover (Xiaomi) | Sama seperti no. 2 (sebisanya) |
-| 4. Uninstall user 0 | MSA (iklan), GetApps | `pm uninstall -k --user 0` — file asli tetap di sistem |
+| 4. Uninstall user 0 | MSA (iklan), GetApps, layanan Facebook bawaan (services, appmanager, system), Android Auto | `pm uninstall -k --user 0` — file asli tetap di sistem |
 
 Untuk menambah/mengurangi aplikasi, edit daftar di bagian **KONFIGURASI** pada `optimasi-ram.ps1`.
 
@@ -109,7 +109,9 @@ Alasan penutupan di log `am_kill`:
 - **DMA-BUF** (buffer kamera/GPU) sempat 3,27 GB lalu turun sendiri ke ~0,4 GB setelah kamera ditutup
   → normal, bukan leak. Leak = angka terus naik dan tidak pernah turun.
 - Layanan Facebook bawaan pabrik (`com.facebook.services`, `.appmanager`, `.system`) dan
-  Android Auto (`com.google.android.projection.gearhead`) **tidak bisa dinonaktifkan**; jika ingin
-  dihentikan total, tambahkan ke daftar `$UninstallUser0` di skrip.
+  Android Auto (`com.google.android.projection.gearhead`) **tidak bisa dinonaktifkan** dan terus hidup
+  lagi (layanan Facebook juga membangunkan Meta View), sehingga di-uninstall untuk user 0.
+  Jika memakai Android Auto di mobil, hapus baris gearhead dari `$UninstallUser0` lalu jalankan
+  `adb shell cmd package install-existing com.google.android.projection.gearhead`.
 - Efek samping pembatasan: notifikasi aplikasi yang dibatasi bisa terlambat; Casio Watches bisa
   terputus dari jam; YouTube Premium background play bisa terhenti.
